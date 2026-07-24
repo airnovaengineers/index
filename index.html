@@ -1874,9 +1874,15 @@ if(contactForm){
     btnLabel.textContent = 'Sending…';
 
     try {
-      const res = await fetch('send-enquiry.php', {
+      const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        body: new FormData(contactForm)
+        headers: { 'Accept': 'application/json' },
+        body: (() => {
+          const fd = new FormData(contactForm);
+          fd.append('access_key', '763b6d3a-7947-40df-a9bd-c8135b4c4bdd');
+          fd.append('subject', 'New Enquiry — AirNova Engineers Website');
+          return fd;
+        })()
       });
       const data = await res.json().catch(() => ({ ok: false }));
 
